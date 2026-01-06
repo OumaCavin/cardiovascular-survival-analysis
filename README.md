@@ -21,59 +21,151 @@ This section provides a sample summary of the key results from both R and Python
 **Author:** Cavin Otieno  
 **Registration Number:** SDS6/46982/2024
 
+#### Data Generation (R Implementation)
+
+The R implementation generates synthetic cardiovascular data based on the Hugging Face dataset structure:
+
+```r
+# Data generation parameters (R):
+n <- 500
+patient_data <- data.frame(
+  id = 1:n,
+  age = round(rnorm(n, mean = 55, sd = 12)),
+  sex_male = sample(c(0, 1), n, replace = TRUE, prob = c(0.48, 0.52)),
+  height_cm = round(rnorm(n, mean = 170, sd = 10)),
+  weight_kg = round(rnorm(n, mean = 80, sd = 15)),
+  bmi = round(rnorm(n, mean = 27.5, sd = 5), 1),
+  sbp_mmHg = round(rnorm(n, mean = 130, sd = 20)),
+  dbp_mmHg = round(rnorm(n, mean = 80, sd = 12)),
+  hypertension = ifelse(rnorm(n, mean = 0, sd = 1) > 0.5, 1, 0),
+  ldl_mgdl = round(rnorm(n, mean = 120, sd = 35)),
+  hdl_mgdl = round(rnorm(n, mean = 50, sd = 15)),
+  glucose_mgdl = round(rnorm(n, mean = 100, sd = 25)),
+  hba1c_pct = round(rnorm(n, mean = 5.8, sd = 1.2), 1),
+  diabetes = ifelse(rnorm(n, mean = 0, sd = 1) > 0.3, 1, 0),
+  time_ascvd_yrs = round(runif(n, min = 0.5, max = 15), 2),
+  ascvd_event = sample(c(0, 1), n, replace = TRUE, prob = c(0.8, 0.2))
+)
+
+# Constraints for realistic ranges
+patient_data$age <- pmax(patient_data$age, 30)
+patient_data$age <- pmin(patient_data$age, 90)
+patient_data$sbp_mmHg <- pmax(patient_data$sbp_mmHg, 90)
+patient_data$sbp_mmHg <- pmin(patient_data$sbp_mmHg, 200)
+
+# Output: Generated 500 patient records
+```
+
 #### Part II: Kaplan-Meier Survival Analysis
 
-The Kaplan-Meier analysis was performed on 500 patients with 110 ASCVD events observed during the follow-up period. The survival function estimates the probability of remaining event-free over time, providing non-parametric estimates of the survival distribution.
+The Kaplan-Meier analysis was performed on 500 patients with 110 ASCVD events observed during the follow-up period. The survival function estimates the probability of remaining event-free over time.
 
-The survival probabilities at key time points demonstrate a gradual decline in event-free survival:
-- At 1 year, the survival probability was 99.8% (95% CI: 99.4%-100%)
-- At 5 years, the survival probability was 90.2% (95% CI: 87.4%-93.0%)
-- At 10 years, the survival probability was 76.0% (95% CI: 71.4%-80.9%)
-- At 14 years, the survival probability dropped to 52.4% (95% CI: 43.9%-62.7%)
+**Survival Probabilities at Key Time Points:**
+```
+  Time 1 year:   S(1) = 0.998 (95% CI: 99.4%-100%)
+  Time 2 years:  S(2) = 0.996
+  Time 3 years:  S(3) = 0.990
+  Time 5 years:  S(5) = 0.902
+  Time 7 years:  S(7) = 0.853
+  Time 10 years: S(10) = 0.760
+  Time 14 years: S(14) = 0.524
 
-The median survival time, the time at which 50% of patients remain event-free, was not directly reached in this dataset, indicating that more than half of the patients survived beyond the maximum follow-up period without experiencing an ASCVD event.
+Number at risk: 500 patients
+Number of events: 110 (22.0%)
+Right-censored: 390 (78.0%)
+```
+
+The median survival time was not directly reached in this dataset, indicating that more than half of the patients survived beyond the maximum follow-up period without experiencing an ASCVD event.
 
 #### Part IV: Cox Proportional Hazards Model
 
-The Cox Proportional Hazards model was fitted to assess the joint effect of multiple predictors on the hazard of experiencing an ASCVD event. The model included three predictors: age, systolic blood pressure, and diabetes status.
+The Cox Proportional Hazards model was fitted to assess the joint effect of multiple predictors on the hazard of experiencing an ASCVD event.
 
-The fitted model takes the form:
-**h(t) = h₀(t) × exp(0.004×Age + 0.007×SBP + 0.261×Diabetes)**
+**Model Specification:**
+```
+Model: h(t) = h₀(t) × exp(0.004×Age + 0.007×SBP + 0.261×Diabetes)
+```
+
+**Cox Model Summary:**
+```
+Call:
+coxph(formula = surv_object ~ age + sbp_mmHg + diabetes, data = patient_data)
+
+  n= 500, number of events= 110 
+
+             coef exp(coef) se(coef)     z Pr(>|z|)
+age      0.003832  1.003840 0.008417 0.455    0.649
+sbp_mmHg 0.006745  1.006768 0.004699 1.435    0.151
+diabetes 0.260704  1.297843 0.192317 1.356    0.175
+
+         exp(coef) exp(-coef) lower .95 upper .95
+age          1.004     0.9962    0.9874     1.021
+sbp_mmHg     1.007     0.9933    0.9975     1.016
+diabetes     1.298     0.7705    0.8903     1.892
+
+Concordance= 0.559  (se = 0.029 )
+Likelihood ratio test= 3.96  on 3 df,   p=0.3
+Wald test            = 4.02  on 3 df,   p=0.3
+Score (logrank) test = 4.03  on 3 df,   p=0.3
+```
 
 **Hazard Ratio Interpretation:**
 - **Age:** HR = 1.004 (95% CI: 0.987-1.021), p = 0.649
-  - For each additional year of age, the hazard of an ASCVD event increases by 0.4%
-  - This effect is not statistically significant at the 0.05 level
+  - Each additional year of age increases hazard by 0.4%
+  - Not statistically significant
   
 - **Systolic Blood Pressure:** HR = 1.007 (95% CI: 0.998-1.016), p = 0.151
-  - For each additional mmHg of SBP, the hazard increases by 0.7%
-  - This trend approaches but does not reach statistical significance
+  - Each additional mmHg of SBP increases hazard by 0.7%
+  - Shows trend toward significance (p < 0.20)
   
 - **Diabetes:** HR = 1.298 (95% CI: 0.890-1.892), p = 0.175
-  - Diabetic patients have a 29.8% higher hazard compared to non-diabetic patients
-  - This association shows a trend toward significance
+  - Diabetic patients have 29.8% higher hazard
+  - Shows trend toward significance
 
 **Model Performance:**
-- Concordance Index: 0.559 (se = 0.029) - The model performs slightly better than random chance in ranking patients by risk
-- Likelihood ratio test: χ² = 3.96 on 3 df, p = 0.3 - The overall model does not significantly improve fit over the null model
+- Concordance Index: 0.559 (se = 0.029)
+- The model performs slightly better than random chance
 
 #### Part VI: Multiple Linear Regression
 
-A multiple linear regression model was fitted to predict systolic blood pressure from age, height, and weight:
-**SBP = 112.32 + 0.08×Age + 0.08×Height_cm + 0.02×Weight_kg**
+A multiple linear regression model was fitted to predict systolic blood pressure from age, height, and weight.
 
-**Model Summary:**
-- Multiple R-squared: 0.0036 (0.36% of variance explained)
-- Adjusted R-squared: -0.0025 (indicates poor model fit)
-- F-statistic: 0.591 on 3 and 496 df, p = 0.621 (not significant)
+**Model Specification:**
+```
+SBP ~ Age + Height_cm + Weight_kg
+```
 
-**Coefficient Interpretation:**
-- **Intercept:** 112.32 (p < 0.001) - Baseline SBP when all predictors are zero
-- **Age:** 0.08 (p = 0.317) - Non-significant; each year increase in age associated with 0.08 mmHg increase in SBP
-- **Height_cm:** 0.08 (p = 0.400) - Non-significant; each cm increase in height associated with 0.08 mmHg increase in SBP
-- **Weight_kg:** 0.02 (p = 0.796) - Non-significant; each kg increase in weight associated with 0.02 mmHg increase in SBP
+**Regression Summary:**
+```
+Call:
+lm(formula = sbp_mmHg ~ age + height_cm + weight_kg, data = patient_data)
 
-The model explains only 0.36% of the variance in systolic blood pressure, indicating that these demographic factors alone are insufficient to predict blood pressure levels in this synthetic dataset.
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-42.117 -13.370  -0.624  13.555  55.487 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 112.32292   17.06331   6.583 1.18e-10 ***
+age           0.07658    0.07645   1.002    0.317    
+height_cm     0.07772    0.09226   0.842    0.400    
+weight_kg     0.01548    0.05986   0.259    0.796    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 20 on 496 degrees of freedom
+Multiple R-squared:  0.003563,  Adjusted R-squared:  -0.002464 
+F-statistic: 0.5912 on 3 and 496 DF,  p-value: 0.621
+```
+
+**Interpretation:**
+- **R-squared: 0.0036** - The model explains only 0.36% of variance in SBP
+- **Intercept: 112.32** (p < 0.001) - Statistically significant baseline
+- **Age: 0.08** (p = 0.317) - Non-significant
+- **Height_cm: 0.08** (p = 0.400) - Non-significant
+- **Weight_kg: 0.02** (p = 0.796) - Non-significant
+
+None of the demographic predictors show statistically significant relationships with systolic blood pressure in this synthetic dataset.
 
 ---
 
