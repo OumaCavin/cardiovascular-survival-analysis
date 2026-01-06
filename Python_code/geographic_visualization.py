@@ -46,8 +46,9 @@ county_assignments = []
 for i in range(len(df)):
     if df.loc[i, 'age'] > 55 and df.loc[i, 'sbp_mmHg'] > 135:
         # Older patients with high BP more likely in urban areas
+        # Probability list matches the 7 counties: 3 urban + 4 highland
         county = np.random.choice(urban_counties + highland_counties, 
-                                  p=[0.4, 0.3, 0.15, 0.15])
+                                  p=[0.35, 0.25, 0.15, 0.10, 0.08, 0.04, 0.03])
     else:
         county = np.random.choice(kenyan_counties)
     county_assignments.append(county)
