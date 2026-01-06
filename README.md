@@ -174,7 +174,7 @@ The model correctly identified 3 out of 4 high-risk patients (75% recall) with o
 
 #### Part VIII: Geographic Visualization
 
-The geographic visualization module creates choropleth-style maps for Kenyan counties:
+The geographic visualization module creates choropleth-style maps for Kenyan counties with 24 counties and 500 patients distributed across them.
 
 **Generated Visualizations:**
 1. **ASCVD Event Rate Map** - Shows cardiovascular event rates by county with bubble sizes representing patient counts
@@ -182,12 +182,32 @@ The geographic visualization module creates choropleth-style maps for Kenyan cou
 3. **Composite Risk Score Map** - Combines event rate, diabetes prevalence, and SBP into a unified risk metric
 4. **County Bar Charts** - Comparative bar charts for event rates and patient distribution
 
-**Top Counties by Composite Risk Score:**
-1. Nairobi - Highest urban risk profile
-2. Mombasa - Elevated coastal risk
-3. Kisumu - High lake region risk
-4. Nakuru - Highland urban center
-5. Eldoret - Highland urban center
+**County Statistics Summary:**
+- **Total Counties Analyzed:** 24
+- **Total Patients:** 500
+- **Total Events:** 111
+- **Overall Event Rate:** 22.20%
+
+**Top 5 Counties by Event Rate:**
+| County | Event Rate | Total Patients | Mean SBP |
+|--------|------------|----------------|----------|
+| Nakuru | 42% | 26 | 134.88 |
+| Keroka | 35% | 20 | 131.35 |
+| Kisumu | 33% | 27 | 145.11 |
+| Baringo | 31% | 13 | 122.62 |
+| Meru | 28% | 18 | 120.61 |
+
+**Top 5 Counties by Composite Risk Score:**
+| County | Risk Score | Event Rate | Diabetes Rate |
+|--------|------------|------------|---------------|
+| Nakuru | 64.49 | 42% | 42% |
+| Nairobi | 59.96 | 28% | 60% |
+| Baringo | 58.26 | 31% | 54% |
+| Keroka | 56.14 | 35% | 40% |
+| Kisumu | 50.51 | 33% | 30% |
+
+**Data Output:**
+- `data/county_level_statistics.csv` - Aggregated statistics for all 24 counties
 
 ---
 
