@@ -153,7 +153,8 @@ OumaCavin/
 ├── Python_code/
 │   ├── data_generation.py
 │   ├── survival_analysis.py
-│   └── ml_classification.py
+│   ├── ml_classification.py
+│   └── geographic_visualization.py
 ├── R_code/
 │   ├── data_generation.R
 │   └── survival_analysis.R
@@ -162,6 +163,8 @@ OumaCavin/
 ├── docs/
 │   ├── ASSIGNMENT_PLAN.md
 │   └── theoretical_concepts.md
+├── visualizations/
+│   └── (choropleth maps)
 ├── README.md
 └── requirements.txt
 ```
@@ -186,17 +189,26 @@ OumaCavin/
 - Model fitting and interpretation
 - Hazard function: h(t) = h₀(t) × exp(β₁X₁ + β₂X₂ + ...)
 
-### Part VI: Multiple Linear Regression
+### Part V: Multiple Linear Regression
 - Model: Blood Pressure ~ Age + Height_cm + Weight_kg
+- Coefficient interpretation
+- Model fit statistics
 
-### Part VII: Python Implementation with ML
+### Part VI: Python Implementation with ML
 - Complete replication of R analysis
 - Machine learning algorithms (Logistic Regression, Random Forest)
-- SMOTE for class imbalance handling
+- Class imbalance handling with balanced class weights
 - Performance metrics and confusion matrix
+
+### Part VII: Final Summary
+- Integration of all analysis results
+- Key findings and interpretations
+- Limitations and future directions
 
 ### Part VIII: Geographic Visualization
 - County-level choropleth maps
+- Kenya cardiovascular risk mapping by county
+- Interactive-style geographic visualizations
 
 ## Dataset
 
@@ -226,9 +238,10 @@ python -m venv .venv
 pip install -r requirements.txt
 
 # Run analyses
-python Python_code/data_generation.py    # Generate dataset
-python Python_code/survival_analysis.py  # Survival analysis
-python Python_code/ml_classification.py  # ML classification
+python Python_code/data_generation.py       # Generate dataset
+python Python_code/survival_analysis.py     # Survival analysis
+python Python_code/ml_classification.py     # ML classification
+python Python_code/geographic_visualization.py  # Geographic visualization
 ```
 
 ## Requirements
