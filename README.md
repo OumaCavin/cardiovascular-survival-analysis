@@ -134,30 +134,43 @@ The Python implementation confirmed that none of the demographic predictors show
 
 #### Part VI: Machine Learning Classification
 
-The machine learning implementation includes Logistic Regression and Random Forest classifiers with balanced class weights to handle class imbalance:
+The machine learning implementation includes Logistic Regression and Random Forest classifiers with **SMOTE oversampling** to handle severe class imbalance (95.8% Low Risk vs 4.2% High Risk):
+
+**Class Distribution:**
+- Low Risk (0): 479 patients (95.8%)
+- High Risk (1): 21 patients (4.2%)
+- After SMOTE: 766 samples (balanced)
 
 **Logistic Regression Performance:**
-- Accuracy: 75.0%
-- Precision: 72.0%
-- Recall: 78.0%
-- F1-Score: 75.0%
-- ROC-AUC: 0.82
+- Accuracy: 88.0%
+- Precision: 25.0%
+- Recall: 100.0%
+- F1-Score: 0.40
+- ROC-AUC: 0.94
 
 **Random Forest Performance:**
-- Accuracy: 85.0%
-- Precision: 82.0%
-- Recall: 88.0%
-- F1-Score: 85.0%
-- ROC-AUC: 0.92
+- Accuracy: 97.0%
+- Precision: 60.0%
+- Recall: 75.0%
+- F1-Score: 0.67
+- ROC-AUC: 0.98
+
+**Confusion Matrix (Random Forest):**
+```
+               Predicted
+             Neg    Pos
+Actual Neg    94      2
+Actual Pos     1      3
+```
 
 **Top Feature Importances (Random Forest):**
-1. age (0.195)
-2. sbp_mmHg (0.192)
-3. height_cm (0.138)
-4. glucose_mgdl (0.120)
-5. ldl_mgdl (0.092)
+1. age (0.413)
+2. sbp_mmHg (0.316)
+3. hdl_mgdl (0.070)
+4. hba1c_pct (0.050)
+5. glucose_mgdl (0.038)
 
-The balanced class weights successfully addressed the initial class imbalance issue, improving minority class detection compared to unweighted models.
+The model correctly identified 3 out of 4 high-risk patients (75% recall) with only 2 false positives.
 
 #### Part VIII: Geographic Visualization
 
