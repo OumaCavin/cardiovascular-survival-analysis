@@ -186,9 +186,6 @@ OumaCavin/
 - Model fitting and interpretation
 - Hazard function: h(t) = h₀(t) × exp(β₁X₁ + β₂X₂ + ...)
 
-### Part V: Manual Kaplan-Meier Calculation
-- Complete table for time: 2, 3+, 6, 6, 7, 10+, 15, 15, 16, 27, 30, 32
-
 ### Part VI: Multiple Linear Regression
 - Model: Blood Pressure ~ Age + Height_cm + Weight_kg
 
