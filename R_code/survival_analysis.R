@@ -35,6 +35,11 @@ km_fit <- survfit(surv_object ~ 1, data = patient_data)
 cat("\nSurvival Summary:\n")
 print(summary(km_fit))
 
+# Create visualizations directory if it doesn't exist
+if (!dir.exists("visualizations")) {
+  dir.create("visualizations")
+}
+
 # Visualizations
 png("visualizations/km_curve_no_ci.png", width = 800, height = 600)
 plot(km_fit, conf.int = FALSE, xlab = "Time (Years)",

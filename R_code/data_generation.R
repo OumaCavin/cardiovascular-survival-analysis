@@ -46,6 +46,11 @@ patient_data$age <- pmin(patient_data$age, 90)
 patient_data$sbp_mmHg <- pmax(patient_data$sbp_mmHg, 90)
 patient_data$sbp_mmHg <- pmin(patient_data$sbp_mmHg, 200)
 
+# Create data directory if it doesn't exist
+if (!dir.exists("data")) {
+  dir.create("data")
+}
+
 # Save to CSV
 write.csv(patient_data, "data/patient_survival_data.csv", row.names = FALSE)
 

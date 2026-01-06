@@ -16,10 +16,14 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import (accuracy_score, precision_score, recall_score,
                              f1_score, roc_auc_score, confusion_matrix,
                              classification_report)
+import os
 
 print("=" * 60)
 print("MACHINE LEARNING CLASSIFICATION")
 print("=" * 60)
+
+# Create data directory if it doesn't exist
+os.makedirs('data', exist_ok=True)
 
 # Load data
 df = pd.read_csv('data/patient_survival_data.csv')

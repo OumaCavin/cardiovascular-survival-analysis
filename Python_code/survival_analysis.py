@@ -9,10 +9,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from lifelines import KaplanMeierFitter, CoxPHFitter
+import os
 
 print("=" * 60)
 print("PYTHON SURVIVAL ANALYSIS")
 print("=" * 60)
+
+# Create visualizations directory if it doesn't exist
+os.makedirs('visualizations', exist_ok=True)
 
 # Load data
 df = pd.read_csv('data/patient_survival_data.csv')
