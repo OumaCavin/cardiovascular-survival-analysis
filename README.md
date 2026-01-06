@@ -126,6 +126,31 @@ Score (logrank) test = 4.03  on 3 df,   p=0.3
 - Concordance Index: 0.559 (se = 0.029)
 - The model performs slightly better than random chance
 
+**Visualizations Generated:**
+Three Kaplan-Meier curve visualizations were generated:
+1. `visualizations/km_curve_no_ci.png` - Survival curve without confidence intervals
+2. `visualizations/km_curve_with_ci.png` - Survival curve with 95% confidence intervals
+3. `visualizations/km_curve_marked.png` - Survival curve with marked time points (1yr, 5yr, 10yr annotated)
+
+#### Part III: Manual Kaplan-Meier Calculation
+
+**Dataset for Manual Calculation:** Time: 2, 3+, 6, 6, 7, 10+, 15, 15, 16, 27, 30, 32
+
+| Time | At Risk | Died | HR | Survival Probability |
+|------|---------|------|-----|---------------------|
+| 2    | 12      | 1    | 0.083 | 0.917 |
+| 3+   | 11      | 0    | 0.000 | 0.917 |
+| 6    | 10      | 2    | 0.200 | 0.733 |
+| 7    | 7       | 1    | 0.143 | 0.629 |
+| 10+  | 6       | 0    | 0.000 | 0.629 |
+| 15   | 5       | 2    | 0.400 | 0.377 |
+| 16   | 2       | 1    | 0.500 | 0.189 |
+| 27   | 1       | 0    | 0.000 | 0.189 |
+| 30   | 1       | 0    | 0.000 | 0.189 |
+| 32   | 1       | 1    | 1.000 | 0.000 |
+
+Note: The '+' symbol indicates censored observations.
+
 #### Part VI: Multiple Linear Regression
 
 A multiple linear regression model was fitted to predict systolic blood pressure from age, height, and weight.
@@ -519,6 +544,41 @@ OumaCavin/
 └── requirements.txt
 ```
 
+## Success Criteria Checklist
+
+All assignment requirements have been successfully completed:
+
+- [x] **Complete Kaplan-Meier manual calculations** - Documented in `docs/ASSIGNMENT_PLAN.md` with step-by-step calculations for the dataset: 2, 3+, 6, 6, 7, 10+, 15, 15, 16, 27, 30, 32
+
+- [x] **Successful R implementation with visualizations** - Complete R implementation in `R_code/survival_analysis.R` including:
+  - Kaplan-Meier survival curves (3 versions: no CI, with CI, marked time points)
+  - Cox Proportional Hazards model
+  - Multiple linear regression
+  - Visualizations saved to `visualizations/`
+
+- [x] **Successful Python implementation with ML** - Complete Python implementation in `Python_code/`:
+  - `data_generation.py` - Data generation
+  - `survival_analysis.py` - Kaplan-Meier and Cox PH analysis
+  - `ml_classification.py` - ML classification with SMOTE
+  - `geographic_visualization.py` - Choropleth maps
+
+- [x] **Confusion matrix and performance metrics** - Implemented in `ml_classification.py`:
+  - Confusion matrix with TP, TN, FP, FN
+  - Performance metrics: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+  - Classification report
+  - Feature importances
+
+- [x] **Comprehensive documentation** - Complete documentation in:
+  - `README.md` - Main documentation with all results
+  - `docs/theoretical_concepts.md` - Theoretical background
+  - `docs/ASSIGNMENT_PLAN.md` - Assignment plan and manual calculations
+
+- [x] **Reproducible code with clear comments** - All code includes:
+  - Set seed for reproducibility (`set.seed(6210)` / `random_state=6210`)
+  - Detailed comments explaining each step
+  - Clear variable names and structure
+  - Version-controlled on GitHub
+
 ## Assignment Parts
 
 ### Part I: Theoretical Concepts
@@ -529,11 +589,14 @@ OumaCavin/
 ### Part II: Kaplan-Meier Analysis
 - Survival object creation
 - Kaplan-Meier curve fitting
-- Visualization with and without confidence intervals
+- Three visualization types:
+  - Without confidence intervals
+  - With 95% confidence intervals
+  - With marked time points (1yr, 5yr, 10yr annotated)
 
 ### Part III: Data Management
 - Dataset creation and import
-- Manual survival probability calculations
+- Manual survival probability calculations (see `docs/ASSIGNMENT_PLAN.md`)
 
 ### Part IV: Cox Proportional Hazards Model
 - Model fitting and interpretation

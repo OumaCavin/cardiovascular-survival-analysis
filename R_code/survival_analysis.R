@@ -41,16 +41,34 @@ if (!dir.exists("visualizations")) {
 }
 
 # Visualizations
+# 1. Kaplan-Meier curve without confidence intervals
 png("visualizations/km_curve_no_ci.png", width = 800, height = 600)
 plot(km_fit, conf.int = FALSE, xlab = "Time (Years)",
      ylab = "Survival Probability",
      main = "Kaplan-Meier Survival Curve (No CI)")
 dev.off()
 
+# 2. Kaplan-Meier curve with 95% confidence intervals
 png("visualizations/km_curve_with_ci.png", width = 800, height = 600)
 plot(km_fit, conf.int = TRUE, xlab = "Time (Years)",
      ylab = "Survival Probability",
      main = "Kaplan-Meier Survival Curve (With 95% CI)")
+dev.off()
+
+# 3. Kaplan-Meier curve with marked time points (mark-up time visualization)
+png("visualizations/km_curve_marked.png", width = 800, height = 600)
+plot(km_fit, conf.int = TRUE, xlab = "Time (Years)",
+     ylab = "Survival Probability",
+     main = "Kaplan-Meier Survival Curve (Marked Time Points)",
+     mark.time = TRUE,  # Mark the event times on the curve
+     col.mark = "red",   # Color for the marks
+     cex.mark = 0.8)     # Size of the marks
+
+# Add vertical lines at key time points
+abline(v = c(1, 5, 10), col = "gray", lty = 2, lwd = 1)
+text(c(1, 5, 10), c(0.95, 0.85, 0.75), 
+     labels = c("1 yr", "5 yr", "10 yr"), 
+     pos = 3, cex = 0.8)
 dev.off()
 
 # PART IV: Cox Proportional Hazards Model
