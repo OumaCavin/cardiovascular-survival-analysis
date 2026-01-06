@@ -25,25 +25,26 @@ Generated 500 patient records
 
 ### Kaplan-Meier Survival Analysis
 ```
-Survival Probabilities:
-  S(1 year) = 0.9939
-  S(2 years) = 0.9833
-  S(3 years) = 0.9632
-  S(5 years) = 0.9390
-  S(7 years) = 0.9041
-  S(10 years) = 0.8366
+Survival Probabilities (sample time points):
+  Time 1 year:  S(1) = 0.998
+  Time 5 years: S(5) = 0.902
+  Time 10 years: S(10) = 0.760
+  Time 14 years: S(14) = 0.524
 
-Median Survival Time: 14.05 years
+Number at risk: 500 patients, 110 events
 ```
 
 ### Cox Proportional Hazards Model
 ```
-Hazard Ratios:
-  Age: 1.001 (p = 0.91)
-  SBP: 1.007 (p = 0.14)
-  Diabetes: 0.920 (p = 0.67)
+Model: h(t) = h₀(t) × exp(0.004×Age + 0.007×SBP + 0.261×Diabetes)
 
-Concordance Index: 0.54
+Hazard Ratios:
+  Age:       HR = 1.004 (95% CI: 0.987-1.021), p = 0.649
+  SBP:       HR = 1.007 (95% CI: 0.998-1.016), p = 0.151
+  Diabetes:  HR = 1.298 (95% CI: 0.890-1.892), p = 0.175
+
+Concordance Index: 0.559 (se = 0.029)
+Likelihood ratio test: p = 0.3
 ```
 
 ### Machine Learning Classification (with SMOTE)
@@ -67,11 +68,17 @@ Top Feature Importances:
 ```
 Model: SBP ~ Age + Height_cm + Weight_kg
 
-R-squared: 0.0009
+R-squared: 0.0036 (Adjusted R² = -0.0025)
+F-statistic: 0.591 (p = 0.621)
+
 Coefficients:
-  Age: -0.005
-  Height: -0.047
-  Weight: -0.023
+  Intercept:  112.32 (p < 0.001) ***
+  Age:          0.08  (p = 0.317)
+  Height_cm:    0.08  (p = 0.400)
+  Weight_kg:    0.02  (p = 0.796)
+
+Interpretation: The model explains only 0.36% of variance in SBP.
+None of the predictors show statistically significant relationships.
 ```
 
 ---
