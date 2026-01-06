@@ -48,8 +48,8 @@ X_test_scaled = scaler.transform(X_test)
 
 # Train models
 models = {
-    'Logistic Regression': LogisticRegression(random_state=6210),
-    'Random Forest': RandomForestClassifier(n_estimators=100, random_state=6210)
+    'Logistic Regression': LogisticRegression(class_weight='balanced', random_state=6210),
+    'Random Forest': RandomForestClassifier(n_estimators=100, class_weight='balanced', random_state=6210)
 }
 
 results = []
