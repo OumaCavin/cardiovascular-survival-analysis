@@ -217,68 +217,78 @@ Generated 500 patient records
   Age: 54.8 ± 12.0 years
   SBP: 131.3 ± 19.1 mmHg
   Diabetes: 208 (41.6%)
-  ASCVD Events: 111 (22.2%)
+  Events: 111 (22.2%)
 ```
 
 ### Kaplan-Meier Survival Analysis
 ```
-Survival Probabilities (sample time points):
-  Time 1 year:  S(1) = 0.998
-  Time 5 years: S(5) = 0.902
-  Time 10 years: S(10) = 0.760
-  Time 14 years: S(14) = 0.524
+Survival Probabilities at Key Time Points:
+  S(1 years) = 0.9939
+  S(2 years) = 0.9833
+  S(3 years) = 0.9632
+  S(5 years) = 0.9390
+  S(7 years) = 0.9041
+  S(10 years) = 0.8366
 
-Number at risk: 500 patients, 110 events
+Median Survival Time: 14.05 years
+
+Number at risk: 500 patients, 111 events observed
 ```
 
 ### Cox Proportional Hazards Model
 ```
-Model: h(t) = h₀(t) × exp(0.004×Age + 0.007×SBP + 0.261×Diabetes)
+Cox Model Summary (lifelines):
+  Number of observations: 500
+  Number of events observed: 111
+  Concordance Index: 0.54
 
 Hazard Ratios:
-  Age:       HR = 1.004 (95% CI: 0.987-1.021), p = 0.649
-  SBP:       HR = 1.007 (95% CI: 0.998-1.016), p = 0.151
-  Diabetes:  HR = 1.298 (95% CI: 0.890-1.892), p = 0.175
+  age:       HR = 1.001 (p = 0.91)
+  sbp_mmHg:  HR = 1.007 (p = 0.14)
+  diabetes:  HR = 0.920 (p = 0.67)
 
-Concordance Index: 0.559 (se = 0.029)
-Likelihood ratio test: p = 0.3
+Model: h(t) = h₀(t) × exp(0.001×Age + 0.007×SBP - 0.084×Diabetes)
+
+Partial AIC: 1133.42
+Log-likelihood ratio test: χ² = 2.43 on 3 df, p = 0.26
 ```
 
 ### Machine Learning Classification (with SMOTE)
 ```
 Random Forest Performance:
-  Accuracy: 95.0%
-  Precision: 89.5%
-  Recall: 85.7%
-  F1-Score: 87.6%
-  ROC-AUC: 0.95
+  Accuracy: 97.0%
+  Precision: 60.0%
+  Recall: 75.0%
+  F1-Score: 0.67
+  ROC-AUC: 0.98
+
+Confusion Matrix:
+               Predicted
+             Neg    Pos
+Actual Neg    94      2
+Actual Pos     1      3
 
 Top Feature Importances:
-  1. age (0.198)
-  2. sbp_mmHg (0.194)
-  3. height_cm (0.135)
-  4. glucose_mgdl (0.116)
-  5. ldl_mgdl (0.088)
+  1. age (0.413)
+  2. sbp_mmHg (0.316)
+  3. hdl_mgdl (0.070)
+  4. hba1c_pct (0.050)
+  5. glucose_mgdl (0.038)
 ```
 
 ### Multiple Linear Regression
 ```
 Model: SBP ~ Age + Height_cm + Weight_kg
 
-R-squared: 0.0036 (Adjusted R² = -0.0025)
-F-statistic: 0.591 (p = 0.621)
+R-squared: 0.0009 (0.09% of variance explained)
 
 Coefficients:
-  Intercept:  112.32 (p < 0.001) ***
-  Age:          0.08  (p = 0.317)
-  Height_cm:    0.08  (p = 0.400)
-  Weight_kg:    0.02  (p = 0.796)
+  Intercept:   141.286
+  Age:         -0.005
+  height_cm:   -0.047
+  weight_kg:   -0.023
 
-Interpretation: The model explains only 0.36% of variance in SBP.
-None of the predictors show statistically significant relationships.
-```
-
-Interpretation: The model explains only 0.36% of variance in SBP.
+Interpretation: The model explains only 0.09% of variance in SBP.
 None of the predictors show statistically significant relationships.
 ```
 
