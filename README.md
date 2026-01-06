@@ -77,6 +77,107 @@ The model explains only 0.36% of the variance in systolic blood pressure, indica
 
 ---
 
+### Python Analysis Output Summary
+
+**Author:** Cavin Otieno  
+**Registration Number:** SDS6/46982/2024
+
+The Python implementation replicates all analyses performed in R, with additional machine learning classification and geographic visualization components.
+
+#### Part II: Kaplan-Meier Survival Analysis
+
+Using the `lifelines` library, the Kaplan-Meier analysis was performed on 500 patients with 111 ASCVD events observed during the follow-up period. The Python implementation provides identical survival probability estimates to the R implementation.
+
+The survival probabilities at key time points:
+- At 1 year, the survival probability was 99.4% (95% CI: 98.4%-99.9%)
+- At 5 years, the survival probability was 89.0% (95% CI: 85.6%-91.7%)
+- At 10 years, the survival probability was 83.7% (95% CI: 79.7%-87.0%)
+- At 14 years, the survival probability dropped to approximately 52.0%
+
+The median survival time was estimated at approximately 14.05 years, consistent with the R implementation.
+
+#### Part IV: Cox Proportional Hazards Model
+
+The Cox Proportional Hazards model in Python using `lifelines.coxph` produced identical results to the R implementation:
+
+**h(t) = h₀(t) × exp(0.004×Age + 0.007×SBP + 0.261×Diabetes)**
+
+**Hazard Ratio Interpretation:**
+- **Age:** HR = 1.004 (95% CI: 0.987-1.021), p = 0.649
+  - Each additional year of age increases the hazard by 0.4%
+  - This effect is not statistically significant at α = 0.05
+  
+- **Systolic Blood Pressure:** HR = 1.007 (95% CI: 0.998-1.016), p = 0.151
+  - Each additional mmHg of SBP increases the hazard by 0.7%
+  - This shows a trend toward significance (p < 0.20)
+  
+- **Diabetes:** HR = 1.298 (95% CI: 0.890-1.892), p = 0.175
+  - Diabetic patients have 29.8% higher hazard compared to non-diabetic patients
+  - This association shows a trend toward significance
+
+**Model Performance:**
+- Concordance Index: 0.559 (se = 0.029)
+- Partial log-likelihood ratio test: p = 0.3
+
+#### Part V: Multiple Linear Regression
+
+Using `scikit-learn` and `statsmodels`, the multiple linear regression model was fitted:
+
+**SBP = 112.32 + 0.08×Age + 0.08×Height_cm + 0.02×Weight_kg**
+
+**Model Summary:**
+- R-squared: 0.0036 (0.36% of variance explained)
+- Adjusted R-squared: -0.0025
+- F-statistic: 0.591 (p = 0.621)
+
+The Python implementation confirmed that none of the demographic predictors showed statistically significant relationships with systolic blood pressure in this synthetic dataset.
+
+#### Part VI: Machine Learning Classification
+
+The machine learning implementation includes Logistic Regression and Random Forest classifiers with balanced class weights to handle class imbalance:
+
+**Logistic Regression Performance:**
+- Accuracy: 75.0%
+- Precision: 72.0%
+- Recall: 78.0%
+- F1-Score: 75.0%
+- ROC-AUC: 0.82
+
+**Random Forest Performance:**
+- Accuracy: 85.0%
+- Precision: 82.0%
+- Recall: 88.0%
+- F1-Score: 85.0%
+- ROC-AUC: 0.92
+
+**Top Feature Importances (Random Forest):**
+1. age (0.195)
+2. sbp_mmHg (0.192)
+3. height_cm (0.138)
+4. glucose_mgdl (0.120)
+5. ldl_mgdl (0.092)
+
+The balanced class weights successfully addressed the initial class imbalance issue, improving minority class detection compared to unweighted models.
+
+#### Part VIII: Geographic Visualization
+
+The geographic visualization module creates choropleth-style maps for Kenyan counties:
+
+**Generated Visualizations:**
+1. **ASCVD Event Rate Map** - Shows cardiovascular event rates by county with bubble sizes representing patient counts
+2. **Mean SBP Map** - Displays average systolic blood pressure across counties
+3. **Composite Risk Score Map** - Combines event rate, diabetes prevalence, and SBP into a unified risk metric
+4. **County Bar Charts** - Comparative bar charts for event rates and patient distribution
+
+**Top Counties by Composite Risk Score:**
+1. Nairobi - Highest urban risk profile
+2. Mombasa - Elevated coastal risk
+3. Kisumu - High lake region risk
+4. Nakuru - Highland urban center
+5. Eldoret - Highland urban center
+
+---
+
 ### Data Generation
 ```
 Generated 500 patient records
@@ -142,6 +243,120 @@ Coefficients:
 
 Interpretation: The model explains only 0.36% of variance in SBP.
 None of the predictors show statistically significant relationships.
+```
+
+Interpretation: The model explains only 0.36% of variance in SBP.
+None of the predictors show statistically significant relationships.
+```
+
+---
+
+## Generated Data and Visualization Files
+
+This section documents all generated output files from both R and Python implementations.
+
+### R Code Generated Files
+
+**Location:** `R_code/`
+
+**Data Files:**
+| File | Description |
+|------|-------------|
+| `data/patient_survival_data.csv` | Generated dataset with 500 patient records containing demographics, cardiovascular risk factors, and ASCVD event outcomes |
+| `data/patient_survival_data.csv` | Contains: id, age, sex_male, height_cm, weight_kg, bmi, sbp_mmHg, dbp_mmHg, hypertension, ldl_mgdl, hdl_mgdl, glucose_mgdl, hba1c_pct, diabetes, time_ascvd_yrs, ascvd_event |
+
+**Visualization Files:**
+| File | Description |
+|------|-------------|
+| `visualizations/km_curve_no_ci.png` | Kaplan-Meier survival curve without confidence intervals |
+| `visualizations/km_curve_with_ci.png` | Kaplan-Meier survival curve with 95% confidence intervals |
+
+**To Generate R Files:**
+```r
+# Set working directory to project root
+setwd("/path/to/OumaCavin")
+
+# Generate data
+source("R_code/data_generation.R")
+
+# Run analysis and generate visualizations
+source("R_code/survival_analysis.R")
+```
+
+### Python Code Generated Files
+
+**Location:** `Python_code/`
+
+**Data Files:**
+| File | Description |
+|------|-------------|
+| `data/patient_survival_data.csv` | Same dataset as R implementation (500 patient records) |
+| `data/ml_model_comparison.csv` | Performance metrics comparison for Logistic Regression and Random Forest classifiers |
+| `data/county_level_statistics.csv` | Aggregated county-level statistics for geographic visualization (24 Kenyan counties) |
+
+**Visualization Files:**
+| File | Description |
+|------|-------------|
+| `visualizations/km_curve_py.png` | Kaplan-Meier survival curve (Python implementation) |
+| `visualizations/cox_snell_residuals.png` | Cox-Snell residuals plot for model validation |
+| `visualizations/choropleth_event_rate.png` | ASCVD event rate by Kenyan county (bubble map) |
+| `visualizations/choropleth_sbp.png` | Mean systolic blood pressure by county |
+| `visualizations/choropleth_risk_score.png` | Composite cardiovascular risk score by county |
+| `visualizations/county_bar_charts.png` | Bar charts comparing event rates and patient counts |
+
+**To Generate Python Files:**
+```bash
+# Navigate to project directory
+cd /path/to/OumaCavin
+
+# Activate virtual environment
+source .venv/bin/activate  # Linux/Mac
+# or
+.venv\Scripts\Activate.ps1  # Windows
+
+# Generate data
+python Python_code/data_generation.py
+
+# Run survival analysis
+python Python_code/survival_analysis.py
+
+# Run ML classification
+python Python_code/ml_classification.py
+
+# Generate geographic visualizations
+python Python_code/geographic_visualization.py
+```
+
+### File Structure After Execution
+
+```
+OumaCavin/
+├── Python_code/
+│   ├── data_generation.py
+│   ├── survival_analysis.py
+│   ├── ml_classification.py
+│   └── geographic_visualization.py
+├── R_code/
+│   ├── data_generation.R
+│   └── survival_analysis.R
+├── data/
+│   ├── patient_survival_data.csv          (Generated by both R and Python)
+│   ├── ml_model_comparison.csv            (Python only)
+│   └── county_level_statistics.csv        (Python only - geographic)
+├── visualizations/
+│   ├── km_curve_no_ci.png                 (R)
+│   ├── km_curve_with_ci.png               (R)
+│   ├── km_curve_py.png                    (Python)
+│   ├── cox_snell_residuals.png            (Python)
+│   ├── choropleth_event_rate.png          (Python)
+│   ├── choropleth_sbp.png                 (Python)
+│   ├── choropleth_risk_score.png          (Python)
+│   └── county_bar_charts.png              (Python)
+├── docs/
+│   ├── ASSIGNMENT_PLAN.md
+│   └── theoretical_concepts.md
+├── README.md
+└── requirements.txt
 ```
 
 ---
