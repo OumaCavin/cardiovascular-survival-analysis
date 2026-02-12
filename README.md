@@ -633,11 +633,6 @@ All assignment requirements have been successfully completed:
 - Weibull distribution calculations
 - Key applications of ML in healthcare
 
-### Part VIII: Geographic Visualization
-- County-level choropleth maps
-- Kenya cardiovascular risk mapping by county
-- Interactive-style geographic visualizations
-
 ## Dataset
 
 **Source:** [Hugging Face DBbun/10M_CIRCULATIONAHA.120.052430_v1.0](https://huggingface.co/datasets/DBbun/10M_CIRCULATIONAHA.120.052430_v1.0)
