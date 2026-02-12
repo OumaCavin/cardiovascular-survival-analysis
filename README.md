@@ -623,6 +623,21 @@ All assignment requirements have been successfully completed:
 - Kenya cardiovascular risk mapping by county
 - Interactive-style geographic visualizations
 
+### Part IX: Health Informatics Theory
+- Definition and importance of health informatics
+- Health informatics approach and methodology
+- Health system components and workflow
+- Discipline areas and sciences of health informatics
+- Challenges of health informatics
+- Types of health systems
+- Weibull distribution calculations
+- Key applications of ML in healthcare
+
+### Part VIII: Geographic Visualization
+- County-level choropleth maps
+- Kenya cardiovascular risk mapping by county
+- Interactive-style geographic visualizations
+
 ## Dataset
 
 **Source:** [Hugging Face DBbun/10M_CIRCULATIONAHA.120.052430_v1.0](https://huggingface.co/datasets/DBbun/10M_CIRCULATIONAHA.120.052430_v1.0)
